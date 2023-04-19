@@ -8,6 +8,7 @@ export type DailyTodoType = {
 };
 
 export type DayType = {
+  id: string
   dayTitle: string,
   month: string,
   day: number,
@@ -19,6 +20,7 @@ export type DayType = {
 function App() {
 
   const [monthCount, setMonthCount] = useState(0);
+  const [selectedDay, setSelectedDay] = useState('');
 
   moment.updateLocale('ru', { week: { dow: 1 } });
 
@@ -85,6 +87,7 @@ function App() {
     }
 
     const day = {
+      id: `${i}${selectedMonthTitle}`,
       dayTitle: 'Яблочный Спас',
       month: selectedMonthTitle,
       day: i,
@@ -106,6 +109,7 @@ function App() {
     };
 
     const day = {
+      id: `${i}${ruMonths[Number(previousMonth.format('M')) - 1]}`,
       dayTitle: 'Яблочный Спас',
       month: ruMonths[Number(previousMonth.format('M')) - 1],
       day: daysInPreviousMonth - i,
@@ -130,6 +134,7 @@ function App() {
     }
 
     const day = {
+      id: `${i}${nextMonth}`,
       dayTitle: 'Яблочный Спас',
       month: nextMonth,
       day: i,
@@ -153,6 +158,10 @@ function App() {
 
   const listRef: any = useRef();
 
+  const handleSelectDay = (dayId: string) => {
+    setSelectedDay(dayId);
+  };
+
   return (
     <div className='page'>
       <main className='main'>
@@ -162,7 +171,15 @@ function App() {
         <ul ref={listRef} className='days page__list'>
           {
             calendarData.map((day) => {
-              return <Day listRef={listRef} key={day.day + day.month} day={day} />
+              return (
+                <Day
+                  handleSelectDay={handleSelectDay}
+                  selectedDay={selectedDay}
+                  listRef={listRef}
+                  key={day.id}
+                  day={day}
+                />
+              )
             })
           }
         </ul>

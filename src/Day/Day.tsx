@@ -1,20 +1,27 @@
-import { FC, useRef, useState } from 'react';
+import { FC, useRef } from 'react';
 import { DayType } from '../App/App';
 
 type PropsType = {
+  handleSelectDay: (param: string) => void
+  selectedDay: string
   day: DayType
   listRef: any
 };
 
 const Day: FC<PropsType> = (props) => {
 
-  const [isDayChecked, setIsDayChecked] = useState(false);
+  const { dayTitle, month, day, isCurrentDay, passed, dailyTodo, id } = props.day;
+  const { handleSelectDay, selectedDay } = props;
 
-  const { dayTitle, month, day, isCurrentDay, passed, dailyTodo } = props.day;
+  const isDayChecked = selectedDay === id;
 
   const handleCardSelect = (e: any) => {
 
-    setIsDayChecked(!isDayChecked);
+    if (selectedDay === id) {
+      handleSelectDay('');
+    } else {
+      handleSelectDay(id);
+    }
 
     const listPosition = props.listRef.current.getBoundingClientRect();
     const dayPosition = e.target.getBoundingClientRect();
@@ -28,7 +35,7 @@ const Day: FC<PropsType> = (props) => {
 
   return (
     <>
-      <li onClick={handleCardSelect} className={`day ${isDayChecked ? 'day_type_selected' : ''} ${passed ? 'day_type_passed' : ''} ${isCurrentDay ? 'day_type_current' : ''}`}>
+      <li onClick={handleCardSelect} className={`day ${passed ? 'day_type_passed' : ''} ${isCurrentDay ? 'day_type_current' : ''} ${isDayChecked ? 'day_type_selected' : ''}`}>
         <h2 className='day__number'>
           {day}
         </h2>

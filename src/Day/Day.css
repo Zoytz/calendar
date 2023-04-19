@@ -12,14 +12,15 @@
   background-color: #00bbf0;
 }
 
+
+.day_type_passed {
+  background-color: #f4f4f4;
+}
+
 .day_type_selected {
   background-color: #fff;
   margin-bottom: 200px;
   position: relative;
-}
-
-.day_type_passed {
-  background-color: #f4f4f4;
 }
 
 .day__number {
